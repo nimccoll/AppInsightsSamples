@@ -1,16 +1,4 @@
-﻿<!--
-//===============================================================================
-// Microsoft FastTrack for Azure
-// Application Insights Examples
-//===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS FOR A PARTICULAR PURPOSE.
-//===============================================================================
--->
-@model IEnumerable<Pubs.Data.Models.Publisher>
+﻿@model IEnumerable<Pubs.Data.Models.Publisher>
 
 @{
     ViewBag.Title = "Publishers";
@@ -83,7 +71,7 @@
                             {
                                 titleList = titleList + string.Format("{0}<br/>", title.BookTitle);
                             }
-                            <button class="btn btn-default btn-sm" data-content="@titleList" data-html="true" data-toggle="popover" data-trigger="focus" title="Titles">...</button>
+                            <button class="btn btn-default btn-sm" onclick="appInsights.trackEvent('ExpandTitles', {PublisherID: @item.PublisherID});" data-content="@titleList" data-html="true" data-toggle="popover" data-trigger="focus" title="Titles">...</button>
                         }
                     }
                 </td>

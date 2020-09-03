@@ -1,13 +1,5 @@
-//===============================================================================
-// Microsoft FastTrack for Azure
-// Application Insights Examples
-//===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS FOR A PARTICULAR PURPOSE.
-//===============================================================================
+using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -27,10 +19,17 @@ namespace PubsRazorPages.Pages.Authors
         [TempData]
         public string Message { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, PubsService pubsService)
+        public IndexModel(ILogger<IndexModel> logger, PubsService pubsService, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _pubsService = pubsService;
+            RequestTelemetry requestTelemetry = httpContextAccessor.HttpContext.Features.Get<RequestTelemetry>();
+            if (httpContextAccessor.HttpContext.Session != null &&
+                requestTelemetry != null && string.IsNullOrEmpty(requestTelemetry.Context.User.Id))
+            {
+                requestTelemetry.Context.User.Id = httpContextAccessor.HttpContext.Session.Id;
+            }
+
         }
         public IActionResult OnGet()
         {

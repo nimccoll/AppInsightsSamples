@@ -71,7 +71,7 @@
                         {
                             authorList = authorList + string.Format("{0}<br/>", author.Author.Name);
                         }
-                        <button class="btn btn-default btn-sm" data-content="@authorList" data-html="true" data-toggle="popover" data-trigger="focus" title="Authors">...</button>
+                        <button class="btn btn-default btn-sm" onclick="appInsights.trackEvent('ExpandAuthors', {TitleID: '@item.TitleID'});" data-content="@authorList" data-html="true" data-toggle="popover" data-trigger="focus" title="Authors">...</button>
                         }
                     }
                 </td>

@@ -21,5 +21,15 @@ namespace Pubs.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_PostAcquireRequestState()
+        {
+            var requestTelemetry = Context.GetRequestTelemetry();
+
+            if (HttpContext.Current.Session != null && requestTelemetry != null && string.IsNullOrEmpty(requestTelemetry.Context.User.Id))
+            {
+                requestTelemetry.Context.User.Id = Session.SessionID;
+            }
+        }
     }
 }
